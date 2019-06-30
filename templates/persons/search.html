@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %} Search results {% endblock %}
+
+{% block content %}
+<section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <div class="search">
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Name</label>
+                  <input type="text" name="name" class="form-control" placeholder="Name">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Company</label>
+                  <input type="text" name="company" class="form-control" placeholder="Company">
+                </div>
+
+                
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Blood type</label>
+                  <input type="text" name="bloodtype" class="form-control" placeholder="Blood type">
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                  <input type="date" name="dateofbirth" placeholder="Date of birth"  class="form-control" value="">                        
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'persons' %}">Browse Persons</a>
+          </li>
+          <li class="breadcrumb-item active"> Search Results</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        {% if persons %}
+        {% for person in persons %}
+              <!-- Listing 1 -->
+              <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card listing-preview">
+                      
+                    <img class="card-img-top" src="{{ person.photo.url }}" alt="">
+                    <div class="card-img-overlay">
+                     
+                        <span class="badge badge-secondary text-white">
+                            {% if person.person_qrcode %}
+                                <img src="{{ person.person_qrcode.url }}" style="max-width: 80px; height: auto;" alt="QR Code not uploaded yet"> 
+                            {% else %}
+                                <img src="{% static 'img/qr_download.png' %}" style="max-width: 80px; height: auto;" alt="QR Code not uploaded yet">
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                      <div class="listing-heading text-center">
+                        <h4 class="text-primary">{{ person.name }}</h4>
+                        <p>
+                            <i class="fas fa-industry"></i> {{ person.company }}</p>
+                      </div>
+                      <hr>
+                      <div class="row py-2 text-secondary">
+                        <div class="col-5">
+                          <i class="fas fa-heart"></i> Blood: {{ person.bloodtype}}</div>
+                        <div class="col-7">
+                          <i class="fas fa-birthday-cake"></i> {{person.dateofbirth | timesince }}</div>
+                      </div>
+                      <div class="row py-2 text-secondary">
+                        <div class="col-12">
+                          <i class="fas fa-phone"></i> {{person.mobile}}</div>
+                        
+                      </div>
+                      <hr>
+                      <div class="row py-2 text-secondary">
+                        <div class="col-12"><p style="font-weight: 500; text-decoration: underline;">Next of kin</p>
+                          <i class="fas fa-users"></i> {{ person.nextofkin }}</div>
+                          </div>
+                          <div class="row py-2 text-secondary">
+                      <div class="col-12">
+                          <i class="fas fa-phone"></i> {{ person.nextofkin_mobile }}</div>
+                          </div>
+                      
+                      <hr>
+                      <a href="{% url 'person' person.id %}" class="btn btn-primary btn-block">More Info</a>
+                    </div>
+                  </div>
+                </div>
+        {% endfor %}
+      {% else %}
+      <div class="col-md-12">
+        <p>Nobody found</p>
+        </div>
+      {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

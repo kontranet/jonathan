@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+{% load humanize %}
+
+
+<!-- Showcase -->
+<section id="showcase">
+        <div class="container text-center">
+          <div class="home-search p-5">
+            <div class="overlay p-5">
+              {% include 'partials/_alerts.html' %}
+              <h1 class="display-4 mb-4">
+                Search workers and machines
+              </h1>
+              
+              <div class="search">
+                <form action="{% url 'search' %}">
+                  <!-- Form Row 1 -->
+                  <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                      <label class="sr-only">Name</label>
+                      <input type="text" name="name" class="form-control" placeholder="Name">
+                    </div>
+    
+                    <div class="col-md-6 mb-3">
+                      <label class="sr-only">Company</label>
+                      <input type="text" name="company" class="form-control" placeholder="Company">
+                    </div>
+    
+                    
+                  </div>
+                  <!-- Form Row 2 -->
+                  <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                      <label class="sr-only">Blood type</label>
+                      <input type="text" name="bloodtype" class="form-control" placeholder="Blood type">
+                        
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <input type="date" name="dateofbirth" placeholder="Date of birth"  class="form-control" value="">                        
+                    </div>
+                  </div>
+                  <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+{% endblock %}

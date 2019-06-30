@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %} {{ machine.machine_name }} {% endblock %}
+
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">{{ machine.machine_name }}</h1>
+          <p class="lead">
+            <i class="fas fa-industry"></i> {{machine.company}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'machines' %}">Machines</a>
+          </li>
+          <li class="breadcrumb-item active">{{ machine.machine_name }}</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listing -->
+  <section id="listing" class="py-4">
+    <div class="container">
+      <a href="{% url 'machines' %}" class="btn btn-light mb-4">Back To Machines</a>
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Main Image -->
+          <img src="{{ machine.m_photo.url }}" alt="" class="img-main img-fluid mb-3">
+          <div class="col-md-4">
+          <!-- Operator Image -->
+          {% if machine.licence_photo_2 %}
+          <img src="{{ machine.op_photo.url }}" alt="" class="img-main img-fluid mb-3">
+          {% endif %}
+          <!-- Thumbnails -->
+          <div class="row mb-5 thumbs">
+            {% if machine.licence_photo_1 %}
+            <div class="col-md-2">
+              <a href="{{ machine.licence_photo_1.url }}" data-lightbox="home-images">
+                <img src="{{ machine.licence_photo_1.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if machine.licence_photo_2 %}
+            <div class="col-md-2">
+              <a href="{{ machine.licence_photo_2.url }}" data-lightbox="home-images">
+                <img src="{{ machine.licence_photo_2.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if machine.licence_photo_3 %}
+            <div class="col-md-2">
+              <a href="{{ machine.licence_photo_3.url }}" data-lightbox="home-images">
+                <img src="{{ machine.licence_photo_3.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if machine.licence_photo_4 %}
+            <div class="col-md-2">
+              <a href="{{ machine.licence_photo_4.url }}" data-lightbox="home-images">
+                <img src="{{ machine.licence_photo_4.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if machine.licence_photo_5 %}
+            <div class="col-md-2">
+              <a href="{{ machine.licence_photo_5.url }}" data-lightbox="home-images">
+                <img src="{{ machine.licence_photo_5.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            
+            
+          </div>
+
+
+
+          <!-- Fields -->
+          <div class="row mb-5 fields">
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  Machine Name:
+                  <span class="float-right">{{ machine.machine_name }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  Licence no.:
+                  <span class="float-right">{{machine.licence_no}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  Licence expiry:
+                  <span class="float-right">{{machine.licence_expiry}}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  Operator:
+                  <span class="float-right">{{machine.operator_name}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                   Operator mobile:
+                  <span class="float-right">{{machine.op_mobile}}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                   Operator boodtype:
+                  <span class="float-right">{{machine.op_boodtype}}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                   Company:
+                  <span class="float-right">{{machine.company}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  Op. Next of kin:
+                  <span class="float-right">{{machine.op_nextofkin}}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  Next of kin Mobile:
+                  <span class="float-right">{{machine.op_nextofkin_mobile}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  List date:
+                  <span class="float-right">{{machine.list_date}}
+                  </span>
+                </li>
+
+
+              </ul>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="row mb-5">
+            <div class="col-md-12"><h3>Comments</h3>
+              {{ machine.comment }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            {% if machine.machine_qrcode %}
+             <img class="card-img-top" src="{{ machine.machine_qrcode.url }}" alt="Machine qr code" style="width: 300px; height: auto;">                     
+            {% else %}
+             <img src="{% static 'img/qr_download.png' %}" style="width: 300px; height: auto;" alt="QR Code not uploaded yet">
+            {% endif %}
+            
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;">{{machine.machine_name}}'s QR Code</h5>
+              <a href={{ machine.machine_qrcode.url }} download >Download QR code</a>
+            </div>
+          </div>
+          
+          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Message to company</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inquiry Modal -->
+  <div class="modal fade" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="inquiryModalLabel">Message to company</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="property_name" class="col-form-label">Subject:</label>
+              <input type="text" name="listing" class="form-control" value="{{machine.machine_name}}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Your Name:</label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Your Email:</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="phone" class="col-form-label">Your Phone:</label>
+              <input type="text" name="phone" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="message" class="col-form-label">Message:</label>
+              <textarea name="message" class="form-control"></textarea>
+            </div>
+            <hr>
+            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
